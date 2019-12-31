@@ -41,7 +41,7 @@ const LoginForm =  props => {
                       </InputGroupAddon>
                       {/* <Input type="text" placeholder="Username" autoComplete="username" /> */}
                         <Field
-                          name="firstName"
+                          name="email"
                           component="input"
                           type="text"
                           placeholder="Username"

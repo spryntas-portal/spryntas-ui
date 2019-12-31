@@ -1,6 +1,6 @@
 import * as service from '../services/commonservice';
 import { getService } from '../services/commonservice';
-import  {constants} from '../constants/constants';
+import  config from '../constants/config';
 // import * as constants from '../constants/constants';
 
 // export function login(data) {
@@ -25,23 +25,37 @@ export const login = (dispatch, getState) => {
       } = getState();
       let email, password;
      
-  console.log("###action",login);
+  
   email = login.values.email;
   password = login.values.password;
-    dispatch({
-      api: service.getService,
-      types: [
-        constants.LOGIN_REQUEST,
-        constants.LOGIN_SUCCESS,
-        constants.LOGIN_FAILURE
-      ],
-      request: {
-        email,
-        password
-      },
-    }).then(({ response }) => {
+  let data = {"email" : email, "password" : password};
+  console.log("###dataaction",data);
+    try {
+        const res = service.getService(data, config.API_URL+"/token")
+        // dispatch(helper.stopLoading());
+        if (res) {
+            dispatch(service.success(res, data.type, data));
+        } else {
+            dispatch(service.failure(res, data.type));
+        }
+    } catch (error) {
+        console.error('Exception-LoginAction', error);
+    }
 
-    });
+    // dispatch({
+    //   api: service.getService,
+    //   types: [
+    //     constants.LOGIN_REQUEST,
+    //     constants.LOGIN_SUCCESS,
+    //     constants.LOGIN_FAILURE
+    //   ],
+    //   request: {
+    //     email,
+    //     password
+    //   },
+    // }).then(({ response }) => {
+
+    // });
 
   };
 

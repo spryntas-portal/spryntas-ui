@@ -1,5 +1,6 @@
 import axios from "axios";
 import config from "../constants/config";
+import { constants } from "../constants/constants";
 
 export const postService = data => {
     const url = data.url;
@@ -23,5 +24,25 @@ export const getService = data => {
         }).catch((error)=>{
             //on error
         });
+}
+export const success = (res, type, data) => {
+    switch (type) {
+        case constants.LOGIN_REQUEST:
+            return {
+                type: constants.LOGIN_SUCCESS,
+                data: res
+            };
+            default:
+                return {};
+    }
+}
+export const failure = (res = {}, type) => {
+    switch (type) {
+        case constants.LOGIN_REQUEST:
+            // AlertHelper.alertError(res.message);
+            return {}
+        default:
+                return {};
+    }
 }
   
