@@ -10,5 +10,6 @@
 
 # production
 /build
+/diff
 
 

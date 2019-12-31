@@ -18,12 +18,16 @@ import {
 // sidebar nav config
 import navigation from '../../_nav';
 // routes config
-import routes from '../../routes';
+// import routes from '../../routes';
+// import Routes from '../../routes';
 
 const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
+const RouterMenu = React.lazy(() => import('./../../routes'));
 const Login = React.lazy(() => import('../../containers/login'));
+// const ErrorLayout = React.lazy(() => import('../../error/error'));
+const Dashboard = React.lazy(() => import('../../components/Dashboard'));
 
 class DefaultLayout extends Component {
   state = {
@@ -38,6 +42,7 @@ class DefaultLayout extends Component {
 
   render() {
     const { guestUser } = this.state;
+    let landingComp = guestUser === false ? Dashboard : Login;
     return (
       <div className="app">
          { !guestUser &&
@@ -60,29 +65,29 @@ class DefaultLayout extends Component {
           </AppSidebar>
         }
           <main className="main">
-            <Switch>
-                <Route path="/" exact component={Login} />
-            </Switch>
+          { guestUser === false ?
+            <React.Fragment>
+              <Container fluid>
+              {/* <Switch> */}
+                  {/* <Route path="/" exact component={Login} />
+                {/* <Route path="/error" render={<ErrorLayout />} /> */}
+                {/* <Route path="/error" component={ErrorLayout} />
+                <Route path="/dashboard" component={Dashboard} /> */}
+                <RouterMenu 
+                   landingComp={ landingComp }
+                />
+            {/* </Switch> */}
             {/* <AppBreadcrumb appRoutes={routes} router={router}/> */}
-            {/* <Container fluid>
-              <Suspense fallback={this.loading()}>
-                <Switch>
-                  {routes.map((route, idx) => {
-                    return route.component ? (
-                      <Route
-                        key={idx}
-                        path={route.path}
-                        exact={route.exact}
-                        name={route.name}
-                        render={props => (
-                          <route.component {...props} />
-                        )} />
-                    ) : (null);
-                  })}
-                  <Redirect from="/" to="/dashboard" />
-                </Switch>
-              </Suspense>
-            </Container> */}
+            </Container>
+            </React.Fragment> 
+            :
+            <React.Fragment> 
+              <Container fluid>
+                <Route path="/" component={Login} />
+                {/* <Redirect from="/" to="login" /> */}
+              </Container>
+            </React.Fragment> 
+          }
           </main>
           <AppAside fixed>
             <Suspense fallback={this.loading()}>
