@@ -2,15 +2,17 @@ import axios from "axios";
 import config from "../constants/config";
 import { constants } from "../constants/constants";
 
-export const postService = data => {
-    const url = data.url;
-    axios.post(
+export const postService = (data, url) => {
+    // const url = data.url;
+    return axios.post(
             url,
             {data:data}
         ).then((res)=>{
             //on success
+            console.log("###res",res);
         }).catch((error)=>{
             //on error
+            console.log("###error",error);
         });
 }
 export const getService = data => {

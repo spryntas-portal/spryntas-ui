@@ -1,7 +1,8 @@
 import * as service from '../services/commonservice';
 import { getService } from '../services/commonservice';
 import  config from '../constants/config';
-// import * as constants from '../constants/constants';
+import { constants } from '../constants/constants';
+// import constants from '../constants/constants';
 
 // export function login(data) {
 //     return async dispatch => {
@@ -28,10 +29,12 @@ export const login = (dispatch, getState) => {
   
   email = login.values.email;
   password = login.values.password;
-  let data = {"email" : email, "password" : password};
+  var data = {"email" : email, "password" : password};
   console.log("###dataaction",data);
     try {
-        const res = service.getService(data, config.API_URL+"/token")
+        const res = service.postService(data, config.API_URL+"/token")
+        data.type = constants.LOGIN_REQUEST;
+        console.log("###resaction",res);
         // dispatch(helper.stopLoading());
         if (res) {
             dispatch(service.success(res, data.type, data));
