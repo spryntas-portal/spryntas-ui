@@ -4,9 +4,15 @@ import { constants } from "../constants/constants";
 
 export const postService = (data, url) => {
     // const url = data.url;
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+    };
     return axios.post(
             url,
-            {data:data}
+            {data:data},
+            {headers}
         ).then((res)=>{
             //on success
             console.log("###res",res);
